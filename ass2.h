@@ -4,11 +4,7 @@
 /********************************************
 //virtualmachine.h
 
-I can only edit this specific doc as of right now. We may need a gDrive folder to work in.
-
-Chose your variable names and structs. Extraneous comments to be removed.
-
-I don’t think vm is needed right now but we will eventually anyway.
+//This will show up as an addition change. It will also show what was removed.
 *******************************************/
 
 //Constants
