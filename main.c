@@ -32,24 +32,7 @@ void displayLexemeList(LexemeList *lists, FILE *fileout) {
     }
 }
 
-// //BASE function
-// //This is from the HW document given
-// //It just finds the base L levels down
-// //Added an extra parameter of stack
-// //Now it takes in the parameters l (L in the instruction format)
-// //base, and stack
-// int base(int l, int base, int stack[]) {
 
-//     //find base L levels down
-//     int b1;
-//     b1 = base;
-
-//     while (l > 0) {
-//         b1 = stack[b1+1];
-//         l--;
-//     }
-//     return b1;
-// }
 
 int main()
 {
