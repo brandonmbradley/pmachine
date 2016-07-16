@@ -6,7 +6,7 @@
 
 //This will show up as an addition change. It will also show what was removed.
 *******************************************/
-
+/*
 //Constants
 #define MAX_STACK_HEIGHT 2000
 #define MAX_CODE_LENGTH 500
@@ -26,26 +26,9 @@ typedef struct INSTRUCTION_DATA {
 
 }instruction;
 
-//OP code array includes
-//"" for empty
-//lit = literal
-//opr = operation
-//lod = load
-//sto = store
-//cal = call (a function)
-//inc = increment (increase a counter/pointer/register place number)
-//jmp = jump
-//jpc = jump if top stack element is 0
-//sio = read input and store at top of stack and halt the machine
 char *const OPCODES[] = {"", "lit", "opr", "lod", "sto", "cal", "inc", "jmp", "jpc", "sio", "sio"};
 
 
-// Struct for our 4 main registers: PC, BP, SP, and IR
-// PC = Program Counter -> the number it has is the address of instruction currently being executed
-// BP = Base Pointer -> points to the base aka the bottom of the activation record
-// SP = Stack Pointer -> looks to the top of the stack
-// IR = Instruction Register -> After the current instruction is fetched the IR holds on to it
-//reg short for register
 typedef struct CPU_REGISTERS
 {
     int PC;
@@ -64,6 +47,7 @@ int stack [MAX_STACK_HEIGHT];
 
 //Init code memory store
 instruction code[MAX_CODE_LENGTH];
+*/
 
 //Prototypes
 /*******************************************
@@ -75,7 +59,7 @@ Augments main function - start fetch-execute cycle
 void startVirtualMachine();
 
 *******************************************/
-
+/*
 void runPM0(FILE* filein, FILE* fileout);
 void execute(FILE *fileout, instruction code[], int stack[], reg *registers);
 int base(int l, int base, int stack[]);
@@ -132,11 +116,65 @@ char *buff;
 
 Here we might need to put in a struct for the lexeme list
 
-*******************************************/
+******************************************
 
 
 
 //PROTOTYPES: More on the functions below
 void globalVars();
 void debug(char* text);
+
+*/
+
+//identifier array
+char m_identifier [11];
+int identifierCount = 0;
+
+//number array
+char m_number[5];
+int numberCount = 0;
+
+//Scanning word flag
+int scanningWord = 0;
+
+//Scanning digit flag
+int scanningDigit = 0;
+
+//Scanning comment flag
+int scanningComment = 0;
+
+//Divide or comment flag
+int scanningDivideOrComment = 0;
+
+//Ending comment flag
+int endingComment = 0;
+
+//Multiply or comment flag
+int scanningMultiplyOrComment = 0;
+
+//Skip closing comment flag
+int skipEndComment = 0;
+
+//Becomesym flag
+int becomes = 0;
+
+//Less equal flag
+int lesseq = 0;
+
+//Greater equal flag
+int greateq = 0;
+
+//Error flag
+int m_error = 0;
+
+//Declaration of token types
+typedef	enum	{
+nulsym = 1, identsym = 2, numbersym = 3, plussym = 4, minussym = 5, multsym = 6,
+slashsym = 7, oddsym = 8,  eqlsym = 9, neqsym = 10, lessym = 11, leqsym = 12,
+gtrsym = 13, geqsym = 14, lparentsym = 15, rparentsym = 16, commasym = 17,
+semicolonsym = 18, periodsym = 19, becomessym = 20, beginsym = 21, endsym = 22,
+ifsym = 23, thensym = 24, whilesym = 25, dosym = 26, callsym = 27, constsym = 28,
+varsym = 29, procsym = 30, writesym = 31, readsym = 32, elsesym = 33 }
+token_type;
+
 
