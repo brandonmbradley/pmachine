@@ -80,7 +80,7 @@ int isReservedWord(char * wordCheck) {
     else return -1;
 }
 
-int vm() {
+int scannermach() {
 
     //Init input/output files
      FILE * readCode = fopen("input6.txt", "r");
