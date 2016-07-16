@@ -67,7 +67,7 @@ instruction code[MAX_CODE_LENGTH];
 
 //Prototypes
 /*******************************************
-//PROPOSED - I’m pretty sure prototypes will change as we implement, minor changes will be needed to run virtual machine.
+//PROPOSED - Iâ€™m pretty sure prototypes will change as we implement, minor changes will be needed to run virtual machine.
 Input should always be mcode.txt, no parameter passing needed
 void readInFile();
 
@@ -81,22 +81,6 @@ void execute(FILE *fileout, instruction code[], int stack[], reg *registers);
 int base(int l, int base, int stack[]);
 void printDisplay(int stack[], reg registers, FILE* fileout);
 void debug(char* text);
-
-/*******************************************
-
-We might need to put in more #define's
-I think maybe for code length (once we do code generation...
-just trying to plan that out as well)
-
-Also do you want to send each other our past codes so that way we can coordinate
-on the function names and such?
-
-I think this header should be dedicated to the variables and structs from
-ass. #2 and then we should have another header dealing with the stuff from ass. #1.
-There might also need to be one for ass. #3 with all the code he gave us in the doc.
-
-
-*******************************************/
 
 
 #include <stdio.h>
