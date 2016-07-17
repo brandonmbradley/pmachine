@@ -148,6 +148,193 @@ void error(int errorNumber) {
     }
 }
 
+void statement() {
+
+    //If token is an identifier
+    if (token == identsym) {
+
+        //Get next token
+        getToken();
+
+        //If token is not becomes
+        if (token != becomessym) {
+
+            //error: := missing in statement
+        }
+
+        //Get next token
+        getToken();
+
+        //parse expression
+        expression();
+
+    }
+
+    //Else if token is call
+    else if (token == callsym) {
+
+        //Get next token
+        getToken();
+
+        //If token is not an identifier
+        if (token != identsym) {
+
+            //error: missing identifier
+
+        }
+
+        //Get next token
+        getToken();
+    }
+
+    //If token is begin
+    else if (token == beginsym) {
+
+        //Get next token
+        getToken();
+
+        //parse statement
+        statement();
+
+        //While token is semi colon
+        while (token == semicolonsym) {
+
+            //Get next token
+            getToken();
+
+            //parse statement
+            statement();
+
+        }
+
+        //If token is not end
+        if (token != endsym) {
+
+            //error: must be closed with end
+
+            //Get next token
+            getToken();
+        }
+
+    }
+
+    //If token is if
+    else if (token == ifsym) {
+
+        //If next token
+        getToken();
+
+        //parse condition
+        condition();
+
+        //If token is not then
+        if (token != thensym) {
+
+            //error: condition must be followed by then
+
+        }
+
+        //Get next token
+        getToken();
+
+        //parse statement
+        statement();
+    }
+
+    //If token is while
+    else if (token == whilesym) {
+
+        //Get next token
+        getToken();
+
+        //Parse condition
+        condition();
+
+        //If token is not do
+        if (token != dosym) {
+
+            //error: while condition must be followed by do
+        }
+
+        //Get next token
+        getToken();
+
+        //Parse statement
+        statement();
+    }
+
+}
+
+void condition() {
+
+    //If token is odd
+    if (token == oddsym) {
+
+        //Get next token
+        getToken();
+
+        //Parse expression
+        expression();
+    }
+
+    //Otherwise
+    else {
+
+        //Parse expression
+        expression();
+
+        //If token is not a relation operator
+        if (!isRelationalOperator()) {
+
+            //error: relational operator missing in conditional statement
+        }
+
+        //Get next token
+        getToken();
+
+        //Parse expression
+        expression();
+    }
+
+}
+
+
+bool isRelationalOperator() {
+
+    if (token == geqsym) {
+
+        return true;
+    }
+
+    else if (token == gtrsym) {
+
+        return true;
+    }
+
+    else if (token == leqsym) {
+
+        return true;
+    }
+
+    else if (token == lessym) {
+
+        return true;
+    }
+
+    else if (token == neqsym) {
+
+        return true;
+    }
+
+    else if (token == eqlsym) {
+
+        return true;
+    }
+
+    else return false;
+
+}
+
 int main()
 {
 
