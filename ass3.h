@@ -7,6 +7,7 @@ typedef struct {
     int level;    //L level
     int address;    //M address
     } symbols;
+    
 
 typedef struct {
     int op, l, m;
@@ -17,9 +18,11 @@ typedef enum {
     lit = 1; opr, lod, sto, cal, inc, jmp, jpc, sioIN, sioOUT
     }vmInstruct;
     
+char token;
 LexemeList *LL;
 int pointLL;
 symbols *symTable;
 
 //Prototypes
 void getToken();
+void *getID(int i);
