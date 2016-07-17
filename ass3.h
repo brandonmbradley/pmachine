@@ -24,5 +24,5 @@ int pointLL;
 symbols *symTable;
 
 //Prototypes
-void getToken();
+getToken();
 void *getID(int i);
