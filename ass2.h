@@ -52,6 +52,12 @@ ifsym = 23, thensym = 24, whilesym = 25, dosym = 26, callsym = 27, constsym = 28
 varsym = 29, procsym = 30, writesym = 31, readsym = 32, elsesym = 33 }
 token_type;
 
+typedef struct {
+	int *list;
+	long size;
+	long numID;
+	char **symbols;
+} LexemeList;
 /********************************************
 //virtualmachine.h
 
