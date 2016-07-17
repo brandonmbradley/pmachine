@@ -48,6 +48,29 @@ int getTablesize() {
     return (int)(LL->numID * 2 + 1);
 }
 
+int makeSymbolTable() {
+    
+    int i = 0;
+    //insert symbol *symtab into ass3.h
+    symtab = NULL;
+    
+    //Allocate some memory for table
+    symtab = (symbol*)malloc(sizeof(symbol)*(2*LL->numID + 1));
+    
+    //If there is noting in the table then print error
+    if(symtab == NULL) {
+        printf("Error: Symbol Table is null.");
+        return 1;
+    }
+    
+    //Zero the array out for kind variable
+    for(i = 0; i < getTableSize); i++) {
+        symtab[i].kind = 0;
+    }
+    
+    return 0;
+}
+
 void error(int errorNumber) {
 
     printf("*****Error number %d, ", errorNumber);
