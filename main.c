@@ -413,6 +413,20 @@ void condition() {
 
 }
 
+//expression
+void expression() {
+    
+    if(token == plussym || token == minussym) {
+        getToken();
+    }
+        term();
+        while(token == plussym || token == minussym) {
+            getToken();
+            term();
+        } //edn 1
+    } //end 2
+
+
 void term() {
 
     factor();
