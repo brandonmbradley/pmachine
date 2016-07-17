@@ -246,6 +246,7 @@ void statement() {
         if (token != becomessym) {
 
             //error: := missing in statement
+            error(3);
         }
 
         //Get next token
@@ -266,7 +267,7 @@ void statement() {
         if (token != identsym) {
 
             //error: missing identifier
-
+            error(14);
         }
 
         //Get next token
@@ -297,6 +298,7 @@ void statement() {
         if (token != endsym) {
 
             //error: must be closed with end
+            error(9);
 
             //Get next token
             getToken();
@@ -317,6 +319,7 @@ void statement() {
         if (token != thensym) {
 
             //error: condition must be followed by then
+            error(16);
 
         }
 
@@ -340,6 +343,7 @@ void statement() {
         if (token != dosym) {
 
             //error: while condition must be followed by do
+            error(18);
         }
 
         //Get next token
@@ -373,6 +377,7 @@ void condition() {
         if (!isRelationalOperator()) {
 
             //error: relational operator missing in conditional statement
+            error(20);
         }
 
         //Get next token
@@ -380,6 +385,53 @@ void condition() {
 
         //Parse expression
         expression();
+    }
+
+}
+
+void term() {
+
+    factor();
+
+    while (token == multsym || token == slashsym) {
+
+        getToken();
+
+        factor();
+    }
+
+}
+
+void factor() {
+
+    if (token == identsym) {
+
+        getToken();
+    }
+
+    else if (token == numbersym) {
+
+        getToken();
+    }
+
+    else if (token == lparentsym) {
+
+        getToken();
+
+        expression();
+
+        if (token != rparentsym) {
+
+            //error: left parenthesis has not been closed
+            error(22);
+        }
+
+        getToken();
+    }
+
+    else {
+
+        //error: identifier, ( or number expected
     }
 
 }
