@@ -32,8 +32,9 @@ void displayLexemeList(LexemeList *lists, FILE *fileout) {
     }
 }
 
-void getToken() {
+getToken() {
     token = LL->list[pointLL++];
+    return token;
 }
 
 
