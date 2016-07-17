@@ -230,9 +230,33 @@ void block() {
         }
         getToken();
     } while(token == commasym);
-    ///////////////////////////////////////////////////////
-}
-}
+    
+    if(token != semicolonsym) {
+        //error
+        error(5);
+    }
+    getToken();
+} //end 2
+
+    while(token == procsym) {
+        //do?
+        getToken();
+        if(token != identsym) {
+            error(4);
+        }
+        getToken();
+        if(token != semicolonsym) {
+            error(5);
+        }
+        getToken();
+        block();
+        if(token != semicolonsym) {
+            error(5);
+        }
+        getToken();
+    } //end 3
+    statement();
+} //end 4
 
 void statement() {
 
