@@ -194,6 +194,9 @@ void program() {
 void block() {
     
     if(token = constsym) {
+        
+        //Gotta do a do while loop
+        do {
         getToken();
         if(token != identsym) {
             //error
@@ -205,10 +208,30 @@ void block() {
             error(1);
         }
         getToken();
+        if(token != numbersym) {
+            //error
+            error(2);
+        }
+        getToken();
+        } while(token == commasym);
         
-        
-    }
-    
+        if(token != semicolonsym) {
+            //error
+            error(5);
+            getToken();
+        }
+    } //end 1
+    if(token == varsym) {
+        do{
+        getToken();
+        if(token != identsym) {
+            //error
+            error(4);
+        }
+        getToken();
+    } while(token == commasym);
+    ///////////////////////////////////////////////////////
+}
 }
 
 void statement() {
