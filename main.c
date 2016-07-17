@@ -48,6 +48,21 @@ int getTablesize() {
     return (int)(LL->numID * 2 + 1);
 }
 
+int hashFunc(char* ID) {
+    int val = 0;
+    int index = 0;
+    int size = getTableSize();
+    
+    while(ID[index] != '\0') {
+        //hash function
+        val = val ((int)ID[i] % size);
+        
+        //increase index for while loop
+        index++
+    }
+    return val;
+}
+
 int makeSymbolTable() {
     
     int i = 0;
