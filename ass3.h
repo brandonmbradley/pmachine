@@ -6,7 +6,7 @@ typedef struct {
     int value;    //ASCII value
     int level;    //L level
     int address;    //M address
-    } symbols;
+    } symbol;
     
 
 typedef struct {
