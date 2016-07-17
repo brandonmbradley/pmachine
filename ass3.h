@@ -1,8 +1,10 @@
 //Assignment 3 header
 
+#define MAX_SYMBOL_TABLE_SIZE 100;
+
 typedef struct {
     int kind;   //const, int proc
-    char *name;   //obvs the name/identifier
+    char name[12];   //obvs the name/identifier
     int value;    //ASCII value
     int level;    //L level
     int address;    //M address
