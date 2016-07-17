@@ -178,6 +178,39 @@ void error(int errorNumber) {
     }
 }
 
+//Program
+void program() {
+    
+    getToken();
+    block();
+    if(token != periodsym) {
+        //error period expected
+        error(9);
+        //return 9;
+    }
+}
+
+//Block
+void block() {
+    
+    if(token = constsym) {
+        getToken();
+        if(token != identsym) {
+            //error
+            error(4);
+        }
+        getToken();
+        if(token != eqsym) {
+            //error
+            error(1);
+        }
+        getToken();
+        
+        
+    }
+    
+}
+
 void statement() {
 
     //If token is an identifier
