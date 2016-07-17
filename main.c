@@ -32,13 +32,43 @@ void displayLexemeList(LexemeList *lists, FILE *fileout) {
     }
 }
 
+//Get next Token
 void getToken() {
     token = LL->list[pointLL++];
     //return token;
 }
 
+//Fetches the ID
 char *getID(int i) {
     return LL->symbols[i];
+}
+
+//Fetches the size of the table
+int getTablesize() {
+    return (int)(LL->numID * 2 + 1);
+}
+
+int makeSymbolTable() {
+    
+    int i = 0;
+    //insert symbol *symtab into ass3.h
+    symtab = NULL;
+    
+    //Allocate some memory for table
+    symtab = (symbol*)malloc(sizeof(symbol)*(2*LL->numID + 1));
+    
+    //If there is noting in the table then print error
+    if(symtab == NULL) {
+        printf("Error: Symbol Table is null.");
+        return 1;
+    }
+    
+    //Zero the array out for kind variable
+    for(i = 0; i < getTableSize); i++) {
+        symtab[i].kind = 0;
+    }
+    
+    return 0;
 }
 
 void error(int errorNumber) {
@@ -146,6 +176,62 @@ void error(int errorNumber) {
             break;
 
     }
+}
+
+//Program
+void program() {
+    
+    getToken();
+    block();
+    if(token != periodsym) {
+        //error period expected
+        error(9);
+        //return 9;
+    }
+}
+
+//Block
+void block() {
+    
+    if(token = constsym) {
+        
+        //Gotta do a do while loop
+        do {
+        getToken();
+        if(token != identsym) {
+            //error
+            error(4);
+        }
+        getToken();
+        if(token != eqsym) {
+            //error
+            error(1);
+        }
+        getToken();
+        if(token != numbersym) {
+            //error
+            error(2);
+        }
+        getToken();
+        } while(token == commasym);
+        
+        if(token != semicolonsym) {
+            //error
+            error(5);
+            getToken();
+        }
+    } //end 1
+    if(token == varsym) {
+        do{
+        getToken();
+        if(token != identsym) {
+            //error
+            error(4);
+        }
+        getToken();
+    } while(token == commasym);
+    ///////////////////////////////////////////////////////
+}
 }
 
 void statement() {
