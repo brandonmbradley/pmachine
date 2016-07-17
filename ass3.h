@@ -25,4 +25,5 @@ symbols *symTable;
 
 //Prototypes
 getToken();
-void *getID(int i);
+char *getID(int i);
+void error(int errorNumber);
