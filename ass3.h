@@ -6,7 +6,7 @@ typedef struct {
     int value;    //ASCII value
     int level;    //L level
     int address;    //M address
-    } symbols;
+    } symbol;
     
 
 typedef struct {
@@ -25,4 +25,5 @@ symbols *symTable;
 
 //Prototypes
 void getToken();
-void *getID(int i);
+char *getID(int i);
+void error(int errorNumber);
