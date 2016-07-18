@@ -81,7 +81,7 @@ int hashFunc(char* ID) {
         val = val + ((int)ID[index] % size);
         
         //increase index for while loop
-        index++
+        index++;
     }
     return val;
 }
