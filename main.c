@@ -73,7 +73,8 @@ int getTablesize() {
 int hashFunc(char* ID) {
     int val = 0;
     int index = 0;
-    int size = getTableSize();
+    int size;
+    size = getTableSize();
     
     while(ID[index] != '\0') {
         //hash function
