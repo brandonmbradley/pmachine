@@ -10,6 +10,7 @@ typedef struct {
     int address;    //M address
     } symbol;
     
+symbol* symtab;
 
 typedef struct {
     int op, l, m;
@@ -23,7 +24,7 @@ typedef enum {
 char token;
 // LexemeList *LL;
 // int pointLL;
-symbol *symtab;
+
 
 //Prototypes
 void getToken();
