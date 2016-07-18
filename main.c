@@ -413,7 +413,8 @@ void condition() {
         expression();
 
         //If token is not a relation operator
-        if (!isRelationalOperator()) {
+        int relCheck = isRelationalOperator();
+        if (!relCheck) {
 
             //error: relational operator missing in conditional statement
             error(20);
