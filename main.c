@@ -218,7 +218,7 @@ void block() {
             error(4);
         }
         getToken();
-        if(token != eqsym) {
+        if(token != eqlsym) {
             //error
             error(1);
         }
