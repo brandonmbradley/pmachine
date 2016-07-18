@@ -646,6 +646,11 @@ int scannermach() {
 
         printf("pScanner was aborted early due to lexical error.");
      }
+     
+     fclose(readCode);
+     fclose(outputLexemeTable);
+     fclose(outputLexemeList);
+     fclose(outputCleanInput);
 
      return 0;
 }
