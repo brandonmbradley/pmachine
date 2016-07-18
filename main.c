@@ -556,6 +556,14 @@ int isRelationalOperator() {
 
 int main()
 {
+    FILE *filein = fopen("input.txt", "r");
+    FILE *fileout = fopen("outputtoken.txt", "w");
+    
+    if(filein == NULL) {
+        printf("Error: No input file");
+    }
+    
+    
 
     return 0;
 }
