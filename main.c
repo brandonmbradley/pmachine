@@ -558,6 +558,7 @@ int main()
 {
     FILE *filein = fopen("input.txt", "r");
     FILE *fileout = fopen("outputtoken.txt", "w");
+    LexemeList *lists = NULL;
     
     if(filein == NULL) {
         printf("Error: No input file");
