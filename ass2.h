@@ -3,44 +3,44 @@
 
 //identifier array
 char m_identifier [11];
-int identifierCount = 0;
+int identifierCount;
 
 //number array
 char m_number[5];
-int numberCount = 0;
+int numberCount;
 
 //Scanning word flag
-int scanningWord = 0;
+int scanningWord;
 
 //Scanning digit flag
-int scanningDigit = 0;
+int scanningDigit;
 
 //Scanning comment flag
-int scanningComment = 0;
+int scanningComment;
 
 //Divide or comment flag
-int scanningDivideOrComment = 0;
+int scanningDivideOrComment;
 
 //Ending comment flag
-int endingComment = 0;
+int endingComment;
 
 //Multiply or comment flag
-int scanningMultiplyOrComment = 0;
+int scanningMultiplyOrComment;
 
 //Skip closing comment flag
-int skipEndComment = 0;
+int skipEndComment;
 
 //Becomesym flag
-int becomes = 0;
+int becomes;
 
 //Less equal flag
-int lesseq = 0;
+int lesseq;
 
 //Greater equal flag
-int greateq = 0;
+int greateq;
 
 //Error flag
-int m_error = 0;
+int m_error;
 
 //Declaration of token types
 typedef	enum	{
