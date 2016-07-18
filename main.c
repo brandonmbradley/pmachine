@@ -59,7 +59,7 @@ int hashFunc(char* ID) {
     
     while(ID[index] != '\0') {
         //hash function
-        val = val ((int)ID[i] % size);
+        val = val ((int)ID[index] % size);
         
         //increase index for while loop
         index++
