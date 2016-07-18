@@ -58,6 +58,9 @@ typedef struct {
 	long numID;
 	char **symbols;
 } LexemeList;
+
+LexemeList *LL;
+int pointLL;
 /********************************************
 //virtualmachine.h
 
