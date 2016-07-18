@@ -208,7 +208,7 @@ void program() {
 //Block
 void block() {
     
-    if(token = constsym) {
+    if(token == constsym) {
         
         //Gotta do a do while loop
         do {
@@ -440,6 +440,8 @@ void expression() {
             term();
         } //edn 1
     } //end 2
+    
+}
 
 
 void term() {
@@ -490,39 +492,39 @@ void factor() {
 }
 
 
-bool isRelationalOperator() {
+int isRelationalOperator() {
 
     if (token == geqsym) {
 
-        return true;
+        return 1;
     }
 
     else if (token == gtrsym) {
 
-        return true;
+        return 1;
     }
 
     else if (token == leqsym) {
 
-        return true;
+        return 1;
     }
 
     else if (token == lessym) {
 
-        return true;
+        return 1;
     }
 
     else if (token == neqsym) {
 
-        return true;
+        return 1;
     }
 
     else if (token == eqlsym) {
 
-        return true;
+        return 1;
     }
 
-    else return false;
+    else return 0;
 
 }
 
