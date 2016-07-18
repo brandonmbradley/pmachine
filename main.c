@@ -556,18 +556,81 @@ int isRelationalOperator() {
 
 }
 
-int main() {
-    FILE *filein = fopen("input.txt", "r");
-    FILE *fileout = fopen("outputtoken.txt", "w");
-    LexemeList *lists = NULL;
-    int pointLL = 0;
-    
-    if(filein == NULL) {
-        printf("Error: No input file");
+int scanTokens() {
+
+
+        FILE * lexemes = fopen("lexemelist.txt", "r");
+
+        if(lexemes == NULL) {
+
+                printf("Error: No lexeme list file!");
+        }
+
+        //Iterated char
+        char c;
+
+        //Array for a single token
+        char singleToken[100];
+
+        //Array counter
+        int singleTokenCounter = 0;
+
+        //Iterate over input
+        while (fscanf(lexemes, "%c", &c) != EOF) {
+
+            //If we have whitespace, this is the end of the token
+            if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c =='\r') {
+
+
+                //Print the single token
+                printf("%s ", &singleToken);
+
+                //TODO: REMOVE COMMENT
+                //HERE IS WHERE WE NEED TO ADD TOKEN TO DATA STRUCTURE, IT IS IN &SINGLETOKEN
+                //THERE ARE VAR NAMES (x, y) AS WELL THAT NEED TO BE HANDLED?
+
+                //Reset the single token array for the next token
+                memset(&singleToken[0], 0, sizeof(singleToken));
+                singleTokenCounter = 0;
+
+            }
+
+            else {
+
+                   //Store next char of token
+                   singleToken[singleTokenCounter] = c;
+
+                   //Increment array counter
+                   singleTokenCounter++;
+
+            }
+
+        }
+
+        //TODO: Remove
+        printf("\nSuccessfully scanned all tokens from lexemelist!\n");
+
+        return 0;
+}
+
+int main()
+{
+
+    pointLL = 0;
+
+    int failedToScan = scannermach();
+
+    if (!failedToScan) {
+
+        scanTokens();
+
     }
-    
-    program();
-    displayLexemeList(lists, fileout);
+
+    else {
+
+        //TODO: Remove
+        printf("\nCompiler Driver: Scanner failed and should have output error.");
+    }
 
     return 0;
 }
