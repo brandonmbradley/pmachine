@@ -79,7 +79,7 @@ int makeSymbolTable() {
     }
     
     //Zero the array out for kind variable
-    for(i = 0; i < getTableSize); i++) {
+    for(i = 0; i < getTableSize; i++) {
         symtab[i].kind = 0;
     }
     
