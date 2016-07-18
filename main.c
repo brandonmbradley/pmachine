@@ -90,7 +90,7 @@ int makeSymbolTable() {
     
     int i = 0;
     //insert symbol *symtab into ass3.h
-    symtab = NULL;
+    symbol * symtab = NULL;
     
     //Allocate some memory for table
     symtab = (symbol*)malloc(sizeof(symbol)*(2*LL->numID + 1));
