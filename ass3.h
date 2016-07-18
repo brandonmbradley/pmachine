@@ -21,9 +21,9 @@ typedef enum {
     }vmInstruct;
     
 char token;
-LexemeList *LL;
-int pointLL;
-symbols *symTable;
+// LexemeList *LL;
+// int pointLL;
+symbol *symTable;
 
 //Prototypes
 void getToken();
