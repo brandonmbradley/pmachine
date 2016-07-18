@@ -17,7 +17,7 @@ typedef struct {
     
     
 typedef enum {
-    lit = 1; opr, lod, sto, cal, inc, jmp, jpc, sioIN, sioOUT
+    lit = 1, opr, lod, sto, cal, inc, jmp, jpc, sioIN, sioOUT
     }vmInstruct;
     
 char token;
