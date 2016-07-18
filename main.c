@@ -1,5 +1,9 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
+#include "ass1.h"
+#include "ass2.h"
+#include "ass3.h"
 
 //Lexeme List function
 //Passes in output file for output printing and the current LL
