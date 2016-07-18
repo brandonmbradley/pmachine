@@ -10,7 +10,6 @@ typedef struct {
     int address;    //M address
     } symbol;
     
-symbol* symtab;
 
 typedef struct {
     int op, l, m;
