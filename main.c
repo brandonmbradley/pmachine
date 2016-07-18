@@ -564,6 +564,7 @@ int main()
     }
     
     program();
+    displayLexemeList(lists, fileout);
 
     return 0;
 }
