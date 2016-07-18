@@ -22,6 +22,8 @@ void term();
 void factor();
 int isRelationalOperator();
 
+int pointLL = 0;
+
 
 //Lexeme List function
 //Passes in output file for output printing and the current LL
@@ -554,8 +556,7 @@ int isRelationalOperator() {
 
 }
 
-int main()
-{
+int main() {
     FILE *filein = fopen("input.txt", "r");
     FILE *fileout = fopen("outputtoken.txt", "w");
     LexemeList *lists = NULL;
