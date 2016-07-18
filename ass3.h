@@ -23,7 +23,7 @@ typedef enum {
 char token;
 // LexemeList *LL;
 // int pointLL;
-symbol *symTable;
+symbol *symtab;
 
 //Prototypes
 void getToken();
