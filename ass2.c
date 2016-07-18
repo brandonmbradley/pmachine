@@ -81,6 +81,43 @@ int isReservedWord(char * wordCheck) {
 }
 
 int scannermach() {
+    
+    identifierCount = 0;
+
+    numberCount = 0;
+
+    //Scanning word flag
+    scanningWord = 0;
+
+    //Scanning digit flag
+    scanningDigit = 0;
+
+    //Scanning comment flag
+    scanningComment = 0;
+
+    //Divide or comment flag
+    scanningDivideOrComment = 0;
+
+    //Ending comment flag
+    endingComment = 0;
+
+    //Multiply or comment flag
+    scanningMultiplyOrComment = 0;
+
+    //Skip closing comment flag
+    skipEndComment = 0;
+
+    //Becomesym flag
+    becomes = 0;
+
+    //Less equal flag
+    lesseq = 0;
+
+    //Greater equal flag
+    greateq = 0;
+
+    //Error flag
+    m_error = 0;
 
     //Init input/output files
      FILE * readCode = fopen("input6.txt", "r");
