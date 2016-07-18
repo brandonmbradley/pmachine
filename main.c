@@ -9,7 +9,7 @@
 void displayLexemeList(LexemeList *lists, FILE *fileout);
 void getToken();
 char *getID(int i);
-int getTablesize();
+int getTableSize();
 int hashFunc(char* ID);
 int makeSymbolTable();
 void error(int errorNumber);
@@ -66,7 +66,7 @@ char *getID(int i) {
 }
 
 //Fetches the size of the table
-int getTablesize() {
+int getTableSize() {
     return (int)(LL->numID * 2 + 1);
 }
 
@@ -101,8 +101,10 @@ int makeSymbolTable() {
         return 1;
     }
     
+    int max = getTableSize();
+    
     //Zero the array out for kind variable
-    for(i = 0; i < getTableSize(); i++) {
+    for(i = 0; i < max; i++) {
         symtab[i].kind = 0;
     }
     
