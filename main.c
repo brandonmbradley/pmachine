@@ -5,6 +5,24 @@
 #include "ass2.h"
 #include "ass3.h"
 
+//Function declarations
+void displayLexemeList(LexemeList *lists, FILE *fileout);
+void getToken();
+char *getID(int i);
+int getTablesize();
+int hashFunc(char* ID);
+int makeSymbolTable();
+void error(int errorNumber);
+void program();
+void block();
+void statement();
+void condition();
+void expression();
+void term();
+void factor();
+int isRelationalOperator();
+
+
 //Lexeme List function
 //Passes in output file for output printing and the current LL
 void displayLexemeList(LexemeList *lists, FILE *fileout) {
