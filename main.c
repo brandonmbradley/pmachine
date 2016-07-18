@@ -563,7 +563,7 @@ int main()
         printf("Error: No input file");
     }
     
-    
+    program();
 
     return 0;
 }
