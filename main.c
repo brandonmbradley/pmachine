@@ -22,7 +22,7 @@ void term();
 void factor();
 int isRelationalOperator();
 
-int pointLL = 0;
+// int pointLL = 0;
 
 
 //Lexeme List function
@@ -560,6 +560,7 @@ int main() {
     FILE *filein = fopen("input.txt", "r");
     FILE *fileout = fopen("outputtoken.txt", "w");
     LexemeList *lists = NULL;
+    int pointLL = 0;
     
     if(filein == NULL) {
         printf("Error: No input file");
