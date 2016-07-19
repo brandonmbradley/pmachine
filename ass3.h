@@ -9,18 +9,19 @@ typedef struct {
     int level;    //L level
     int address;    //M address
     } symbol;
-    
+
+//symbol *symTab;
 
 typedef struct {
     int op, l, m;
     } instruct;
-    
-    
+
+
 typedef enum {
     lit = 1, opr, lod, sto, cal, inc, jmp, jpc, sioIN, sioOUT
     }vmInstruct;
-    
-char token;
+
+int token;
 // LexemeList *LL;
 // int pointLL;
 
@@ -29,3 +30,8 @@ char token;
 void getToken();
 char *getID(int i);
 void error(int errorNumber);
+void displayLexemeList(LexemeList *lists, FILE *fileout);
+void getToken();
+char *getID(int i);
+int getTablesize();
+int makeSymbolTable();
