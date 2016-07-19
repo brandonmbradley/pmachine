@@ -21,12 +21,16 @@ void expression();
 void term();
 void factor();
 int isRelationalOperator();
-
-// int pointLL = 0;
+int tokens[100];
+int getTokenCounter = -1;
+int c_error = 0;
+int pointLL = 0;
+int compileFlag = 0;
 
 
 //Lexeme List function
 //Passes in output file for output printing and the current LL
+
 void displayLexemeList(LexemeList *lists, FILE *fileout) {
 
     int i;
@@ -54,11 +58,14 @@ void displayLexemeList(LexemeList *lists, FILE *fileout) {
             }
         }
     }
+
 }
 
 //Get next Token
 void getToken() {
-    token = LL->list[pointLL++];
+
+    getTokenCounter++;
+    token = tokens[getTokenCounter];
     //return token;
 }
 
@@ -77,11 +84,11 @@ int hashFunc(char* ID) {
     int index = 0;
     int size;
     size = getTableSize();
-    
+
     while(ID[index] != '\0') {
         //hash function
         val = val + ((int)ID[index] % size);
-        
+
         //increase index for while loop
         index++;
     }
@@ -89,140 +96,170 @@ int hashFunc(char* ID) {
 }
 
 int makeSymbolTable() {
-    
+
     int i = 0;
     //insert symbol *symtab into ass3.h
     symbol * symtab = NULL;
-    
+
     //Allocate some memory for table
     symtab = (symbol*)malloc(sizeof(symbol)*(2*LL->numID + 1));
-    
+
     //If there is noting in the table then print error
     if(symtab == NULL) {
         printf("Error: Symbol Table is null.");
         return 1;
     }
-    
+
     int max = getTableSize();
-    
+
     //Zero the array out for kind variable
     for(i = 0; i < max; i++) {
         symtab[i].kind = 0;
     }
-    
+
     return 0;
 }
 
 void error(int errorNumber) {
 
-    printf("*****Error number %d, ", errorNumber);
+    printf("\nError number %d, ", errorNumber);
     switch (errorNumber) {
         case 1:
             printf("Use = instead of :=.\n");
+            c_error = 1;
             break;
 
         case 2:
             printf("= must be followed by a number.\n");
+            c_error = 1;
             break;
 
         case 3:
             printf("Identifier must be followed by =.\n");
+            c_error = 1;
             break;
 
         case 4:
             printf("const, int, procedure must be followed by identifier.\n");
+            c_error = 1;
             break;
 
         case 5:
             printf("Semicolon or comma missing.\n");
+            c_error = 1;
             break;
 
         case 6:
             printf("Incorrect symbol after procedure declaration.\n");
+            c_error = 1;
             break;
 
         case 7:
             printf("Statement expected.\n");
+            c_error = 1;
             break;
 
         case 8:
             printf("Incorrect symbol after statement part in block.\n");
+            c_error = 1;
             break;
 
         case 9:
             printf("Period expected.\n");
+            c_error = 1;
             break;
 
         case 10:
             printf("Semicolon between statements missing.\n");
+            c_error = 1;
             break;
 
         case 11:
             printf("Undeclared identifier.\n");
+            c_error = 1;
             break;
 
         case 12:
             printf("Assignment to constant or procedure is not allowed.\n");
+            c_error = 1;
             break;
 
         case 13:
             printf("Assignment operator expected.\n");
+            c_error = 1;
             break;
 
         case 14:
             printf("call must be followed by an identifier.\n");
+            c_error = 1;
             break;
 
         case 15:
             printf("Call of a constant or variable is meaningless.\n");
+            c_error = 1;
             break;
 
         case 16:
             printf("then expected.\n");
+            c_error = 1;
             break;
 
         case 17:
             printf("Semicolon or } expected.\n");
+            c_error = 1;
             break;
 
         case 18:
             printf("do expected.\n");
+            c_error = 1;
             break;
 
         case 19:
             printf("Incorrect symbol following statement.\n");
+            c_error = 1;
             break;
 
         case 20:
             printf("Relational operator expected.\n");
+            c_error = 1;
             break;
 
         case 21:
             printf("Expression must not contain a procedure identifier.\n");
+            c_error = 1;
             break;
 
         case 22:
             printf("Right parenthesis missing.\n");
+            c_error = 1;
             break;
 
         case 23:
             printf("The preceding factor cannot begin with this symbol.\n");
+            c_error = 1;
             break;
 
         case 24:
             printf("An expression cannot begin with this symbol.\n");
+            c_error = 1;
             break;
 
         case 25:
             printf("This number is too large.\n");
+            c_error = 1;
             break;
 
+    }
+
+    if (c_error) {
+
+        exit(1);
     }
 }
 
 //Program
 void program() {
-    
+
     getToken();
     block();
     if(token != periodsym) {
@@ -234,9 +271,9 @@ void program() {
 
 //Block
 void block() {
-    
+
     if(token == constsym) {
-        
+
         //Gotta do a do while loop
         do {
         getToken();
@@ -256,7 +293,7 @@ void block() {
         }
         getToken();
         } while(token == commasym);
-        
+
         if(token != semicolonsym) {
             //error
             error(5);
@@ -272,7 +309,7 @@ void block() {
         }
         getToken();
     } while(token == commasym);
-    
+
     if(token != semicolonsym) {
         //error
         error(5);
@@ -366,9 +403,11 @@ void statement() {
             //error: must be closed with end
             error(9);
 
-            //Get next token
-            getToken();
+
         }
+
+             //Get next token
+            getToken();
 
     }
 
@@ -458,7 +497,7 @@ void condition() {
 
 //expression
 void expression() {
-    
+
     if(token == plussym || token == minussym) {
         getToken();
     }
@@ -468,7 +507,7 @@ void expression() {
             term();
         } //edn 1
 } //end 2
-    
+
 
 
 
@@ -514,7 +553,8 @@ void factor() {
 
     else {
 
-        //error: identifier, ( or number expected
+        //error: identifier, ( or number expect
+        error(11);
     }
 
 }
@@ -575,6 +615,8 @@ int scanTokens() {
         //Array counter
         int singleTokenCounter = 0;
 
+        int tokenCounter = 0;
+
         //Iterate over input
         while (fscanf(lexemes, "%c", &c) != EOF) {
 
@@ -585,9 +627,19 @@ int scanTokens() {
                 //Print the single token
                 printf("%s ", &singleToken);
 
-                //TODO: REMOVE COMMENT
-                //HERE IS WHERE WE NEED TO ADD TOKEN TO DATA STRUCTURE, IT IS IN &SINGLETOKEN
-                //THERE ARE VAR NAMES (x, y) AS WELL THAT NEED TO BE HANDLED?
+                //Convert token to numerical token
+                int digit = 0;
+                sscanf(singleToken, "%d", &digit);
+
+                //Ignore the non token types
+                if (digit >= 1 && digit <= 33) {
+
+                    //Store in token array
+                    tokens[tokenCounter] = digit;
+
+                    //Increment
+                    tokenCounter++;
+                }
 
                 //Reset the single token array for the next token
                 memset(&singleToken[0], 0, sizeof(singleToken));
@@ -607,19 +659,17 @@ int scanTokens() {
 
         }
 
-        //TODO: Remove
-        printf("\nSuccessfully scanned all tokens from lexemelist!\n");
+        program();
 
         return 0;
 }
 
 int main()
 {
-
-    pointLL = 0;
-
+    //Call assignment 2 scanner
     int failedToScan = scannermach();
 
+    //If scanner
     if (!failedToScan) {
 
         scanTokens();
@@ -630,6 +680,11 @@ int main()
 
         //TODO: Remove
         printf("\nCompiler Driver: Scanner failed and should have output error.");
+    }
+
+    if (!c_error) {
+
+        printf("\nNo errors, program is syntactically correct.");
     }
 
     return 0;
