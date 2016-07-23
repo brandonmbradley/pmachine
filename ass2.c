@@ -268,6 +268,9 @@ int scannermach() {
 
                 //Reset flag
                 scanningWord = 0;
+                
+                //Terminating char
+                m_identifier[identifierCount] = '\0';
 
                 //Copy word into checking array
                 char wordCheck[identifierCount];
