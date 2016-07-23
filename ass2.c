@@ -477,7 +477,7 @@ int scannermach() {
         else if (c >= 48 && c <= 57 && !scanningComment && scanningWord) {
 
             //Sanity check for bounds
-            if (identifierCount = 11) {
+            if (identifierCount == 11) {
 
                 m_error = 1;
 
