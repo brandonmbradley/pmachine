@@ -664,6 +664,30 @@ int scanTokens() {
         return 0;
 }
 
+//Display the symbol table list
+void displaySymList(LexemeList *temp, FILE *fileout) {
+	int i;
+	for(int i = 0; i < temp->size; i++) {
+        
+        //print the reserved word
+		printf("%s", isReservedWord(temp->list[i]));
+
+        //if it is an identifier then add to the index and print the symbol
+		if(temp->list[i] == identsym) {
+
+			i++;
+			printf("%s", temp->symbols[temp->list[i]]);
+		}
+		else if(temp->list[i] == numbersym) {
+		    //if its a number then add to index and print the number in the list
+			i++;
+			printf("%d", temp->list[i]);
+
+
+		}
+	}
+}
+
 int main()
 {
     //Call assignment 2 scanner
