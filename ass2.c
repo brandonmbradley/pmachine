@@ -1,5 +1,8 @@
 //Assignment 2 c file
-
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "ass2.h"
 
 //Returns whether checked word is reserved
 int isReservedWord(char * wordCheck) {
