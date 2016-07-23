@@ -623,6 +623,7 @@ int scanTokens() {
             //If we have whitespace, this is the end of the token
             if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c =='\r') {
 
+		//Terminating char
 		singleToken[singleTokenCounter] = '\0';
 
                 //Print the single token
