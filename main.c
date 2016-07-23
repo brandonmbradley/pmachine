@@ -20,6 +20,7 @@ void condition();
 void expression();
 void term();
 void factor();
+void gen(int op, int l, int m);
 int isRelationalOperator();
 int tokens[100];
 int getTokenCounter = -1;
@@ -59,6 +60,12 @@ void displayLexemeList(LexemeList *lists, FILE *fileout) {
         }
     }
 
+}
+
+//Inserts a new instruction into the code list
+void gen(int op, int l, int m) {
+	
+	
 }
 
 //Get next Token
