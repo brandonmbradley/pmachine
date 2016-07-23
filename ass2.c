@@ -251,9 +251,10 @@ int scannermach() {
         }
 
         //Unsupported symbols throw error
-        if (c == '$' || c == '#' || c == '&' || c == '!' || c == '~' || c == '`' || c == '?') {
+        if ((c == '$' || c == '#' || c == '&' || c == '!' || c == '~' || c == '`' || c == '?') && !scanningComment) {
 
             m_error = 1;
+            printf("\nError: Unsupported symbol.");
         }
 
         //All forms of whitespace are ignored
@@ -271,7 +272,7 @@ int scannermach() {
 
                 //Reset flag
                 scanningWord = 0;
-                
+
                 //Terminating char
                 m_identifier[identifierCount] = '\0';
 
@@ -294,7 +295,7 @@ int scannermach() {
                 else {
 
                     fprintf(outputLexemeTable, "\n%s\t\t%i", m_identifier, identsym);
-                    fprintf(outputLexemeList, "%i %s ",identsym, wordCheck);
+                    fprintf(outputLexemeList, "%i %s ",identsym, m_identifier);
 
                 }
 
@@ -340,6 +341,8 @@ int scannermach() {
 
                     //Reset flag
                     scanningDigit = 0;
+
+                    m_number[numberCount] = '\0';
 
                     //Copy into array
                     char number[numberCount];
@@ -440,6 +443,8 @@ int scannermach() {
 
                     //Error
                     m_error = 1;
+
+                    printf("\nError: Digit exceeds max length.");
                 }
 
                 //Add to previous digit
@@ -472,9 +477,11 @@ int scannermach() {
         else if (c >= 48 && c <= 57 && !scanningComment && scanningWord) {
 
             //Sanity check for bounds
-            if (identifierCount == 11) {
+            if (identifierCount = 11) {
 
                 m_error = 1;
+
+                printf("\nError: Identifier exceeds max length.");
             }
 
             //Add digit to word
@@ -499,6 +506,8 @@ int scannermach() {
 
                     //Error
                     m_error = 1;
+
+                    printf("\nError: Identifier exceeds max length.");
                 }
 
                 //Add letter to word
@@ -534,6 +543,7 @@ int scannermach() {
 
                 //Error letter before a digit
                 m_error = 1;
+                printf("\nError: Variable does not start with letter.");
         }
 
         //Scanned a slash and not in a comment
@@ -605,6 +615,8 @@ int scannermach() {
      //We have reached end of file, but were scanning a word
      if (scanningWord) {
 
+            m_identifier[identifierCount] = '\0';
+
             //Copy word into checking array
             char wordCheck[identifierCount];
             memset(&wordCheck[0], 0, sizeof(wordCheck));
@@ -632,6 +644,8 @@ int scannermach() {
      //We have reached end of file, but were scanning a digit
      if (scanningDigit) {
 
+            m_number[numberCount] = '\0';
+
             //Copy into array
             char number[numberCount];
             memset(&number[0], 0, sizeof(number));
@@ -650,7 +664,7 @@ int scannermach() {
      //Output error message
      if (m_error) {
 
-        printf("pScanner was aborted early due to lexical error.");
+        printf("\npScanner was aborted early due to lexical error.");
      }
      
      fclose(readCode);
