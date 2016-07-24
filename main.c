@@ -684,7 +684,9 @@ void statement() {
 
         //Parse statement
         statement();
+        //gen(jmp, symbolLevel(identifier), symbolAddress(identifier));
     }
+    
 
 }
 
@@ -849,7 +851,7 @@ void factor() {
         int i;
 
         //printf("Statement identifier: %s\n", identifier);
-
+        //find symbol
         i = find(identifier);
 
         //printf("Result of find %i", i);
@@ -913,7 +915,7 @@ void factor() {
     }
 
 }
-
+/////////////////////////////////////
 
 int isRelationalOperator() {
 
@@ -1009,25 +1011,7 @@ int scanTokens() {
 
         }
 
-        //TODO: Remove print token array
-        /*
-        int j = 0;
-        printf("\nToken Array:\n");
-        for (j = 0; j < tokenCounter; j++) {
-            printf("%s\n", tokens[j]);
-        }
-        //TODO: Remove
-        printf("\n\nSymbol Table:");
-        int i = 0;
-        for (i = 0; i < symbolTableIndex; i++) {
-            printf("\nKind: %i Name: %s Value: %i  Level: %i  Address: %i\n", symbolTable[i].kind, symbolTable[i].name, symbolTable[i].value, symbolTable[i].level, symbolTable[i].address);
-            symbolTable[i].kind = 0;
-            symbolTable[i].value = 0;
-            symbolTable[i].level = 0;
-            symbolTable[i].address = 0;
-        }
-        printf("\n");
-        */
+
 
 
         program();
