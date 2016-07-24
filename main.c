@@ -81,7 +81,6 @@ void gen(int op, int l, int m) {
 //Inserts a new symbol into the symbol table
 void enter(int type) {
 
-    //printf("Enter called with type %i", type);
 
     //Store name
     strcpy(symbolTable[symbolTableIndex].name, identifier);
