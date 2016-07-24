@@ -64,10 +64,6 @@ void outputSymbolTable() {
 
             printf("\nKind: %i Name: %s Value: %i  Level: %i  Address: %i\n", symbolTable[i].kind, symbolTable[i].name, symbolTable[i].value, symbolTable[i].level, symbolTable[i].address);
 
-            symbolTable[i].kind = 0;
-            symbolTable[i].value = 0;
-            symbolTable[i].level = 0;
-            symbolTable[i].address = 0;
         }
 
 }
