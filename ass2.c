@@ -668,7 +668,7 @@ int scannermach() {
         printf("\npScanner was aborted early due to lexical error.");
      }
      
-     LexemeList *list;
+     LexemeList *list = NULL;
      fprintf(outputSymTab, "Name\t Type\t Level\t Value");
      fprintf(outputSymTab, "Loopend\t const\t 0 \t 0");
      displaySymList(list, outputSymTab);
