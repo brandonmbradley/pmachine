@@ -21,138 +21,249 @@ void expression();
 void term();
 void factor();
 void gen(int op, int l, int m);
-int symbolType(struct symbol);
-int symbolLevel(struct symbol);
-int symbolAddress(struct symbol);
+void enter(int type);
+int find(char * ident);
+int symbolType(char * ident);
+int symbolLevel(char * ident);
+int symbolAddress(char * ident);
 int isRelationalOperator();
-int tokens[100];
-int getTokenCounter = -1;
+char * tokens[100][11];
+char * identifier[11];
+int number = 0;
+int getTokenCounter = 0;
 int c_error = 0;
-int pointLL = 0;
 int compileFlag = 0;
+int lexLevel = 0;
+int codeIdx = 0;
+instruction i_code[MAX_CODE_LENGTH];
+FILE * writeCode;
 
+//Output code to mcode.txt for vm
+void outputCode() {
 
-//Lexeme List function
-//Passes in output file for output printing and the current LL
+    writeCode = fopen("mcode.txt", "w");
 
-void displayLexemeList(LexemeList *lists, FILE *fileout) {
+    if (writeCode == NULL) {
 
-    int i;
-
-    //If there is a LL
-    if (lists != NULL) {
-
-        //Print the size
-        printf("Size: %ld\n", lists->size);
-
-        //FOR LOOP: From i equals 0 to the size of the list
-        for (i = 0; i < lists->size; i++) {
-
-            //Print out the list through each index i
-            printf("%d ", lists->list[i]);
-
-            //If the current value at index i happens to be an identifier
-            //Increase i
-            if (lists->list[i] == identsym) {
-                i++;
-
-                //If i is less than the size of the list, print
-                if (i < lists->size)
-                    printf("%s ", lists->symbols[lists->list[i]]);
-            }
-        }
+        printf("Error: Code file could not be opened!\n");
     }
+
+    int i = 0;
+    for (i = 0; i < codeIdx; i++) {
+
+        fprintf(writeCode, "%i %i %i\n", i_code[i].op, i_code[i].l, i_code[i].m);
+    }
+
+}
+
+void outputSymbolTable() {
+
+        printf("\n\nSymbol Table:");
+        int i = 0;
+        for (i = 0; i < symbolTableIndex; i++) {
+
+            printf("\nKind: %i Name: %s Value: %i  Level: %i  Address: %i\n", symbolTable[i].kind, symbolTable[i].name, symbolTable[i].value, symbolTable[i].level, symbolTable[i].address);
+
+            symbolTable[i].kind = 0;
+            symbolTable[i].value = 0;
+            symbolTable[i].level = 0;
+            symbolTable[i].address = 0;
+        }
 
 }
 
 //Inserts a new instruction into the code list
 void gen(int op, int l, int m) {
-	
-	
+
+    i_code[codeIdx].op = op;
+    i_code[codeIdx].l = l;
+    i_code[codeIdx].m = m;
+    codeIdx++;
+
 }
 
+//Inserts a new symbol into the symbol table
+void enter(int type) {
+
+    printf("Enter called with type %i", type);
+
+    //Store name
+    strcpy(symbolTable[symbolTableIndex].name, identifier);
+
+    //Store kind
+    symbolTable[symbolTableIndex].kind = type;
+
+    //For constants, you must store kind, name and value.
+    if (type == 1) {
+
+        //Store value
+        symbolTable[symbolTableIndex].value = number;
+
+    }
+
+    //For variables, you must store kind, name, L and M.
+    else if (type == 2) {
+
+        symbolTable[symbolTableIndex].level = lexLevel;
+        symbolTable[symbolTableIndex].address = symbolTableIndex;
+
+    }
+
+    //For procedures, you must store kind, name, L and M
+    else if (type == 3) {
+
+        symbolTable[symbolTableIndex].level = lexLevel;
+
+    }
+
+    //Increment index
+    symbolTableIndex++;
+
+}
+
+int find(char * ident) {
+
+        //printf("Finding:%s\n", ident);
+
+        int i = 0;
+
+        for (i = 0; i < symbolTableIndex; i++) {
+
+            //printf("Checking against:%s\n", symbolTable[i].name);
+
+            int check = strcmp(ident, symbolTable[i].name);
+
+            //printf("Check is %i \n", check);
+
+            if (check == 0) {
+
+                return 1;
+            }
+
+        }
+
+        return 0;
+}
+
+
 //Returns the type of a symbol (const, var, proc)
-//TODO: Change symbol declaration once finalized data structure
-int symbolType(struct symbol) {
-	
-	
-	//TODO: Remove 
-	return 0;
+int symbolType(char * ident) {
+
+        //printf("Finding symbol type:%s\n", ident);
+
+        int i = 0;
+
+        for (i = 0; i < symbolTableIndex; i++) {
+
+            //printf("Checking against:%s\n", symbolTable[i].name);
+
+            int check = strcmp(ident, symbolTable[i].name);
+
+            //printf("Check is %i \n", check);
+
+            if (check == 0) {
+
+                int kind = symbolTable[i].kind;
+                //printf("Kind is %i\n", symbolTable[i].kind);
+                return kind;
+            }
+
+        }
+
+        return 0;
 }
 
 //Returns the level of a symbol
-//TODO: Change symbol declaration once finalized data structure
-int symbolLevel(struct symbol) {
-	
-	//TODO: Remove
-	return 0;
+int symbolLevel( char * ident) {
+
+        //printf("Finding symbol level:%s\n", ident);
+
+        int i = 0;
+
+        for (i = 0; i < symbolTableIndex; i++) {
+
+            //printf("Checking against:%s\n", symbolTable[i].name);
+
+            int check = strcmp(ident, symbolTable[i].name);
+
+            //printf("Check is %i \n", check);
+
+            if (check == 0) {
+
+                int level = symbolTable[i].level;
+                //printf("Level is %i\n", symbolTable[i].level);
+                return level;
+            }
+
+        }
+
+        return 0;
 }
 
 //Returns the address of a symbol
-//TODO: Change symbol declaration once finalized data structure
-int symbolAddress(struct symbol) {
-	
-	//TODO: Remove
-	return 0;
+int symbolAddress(char * ident) {
+
+        //printf("Finding symbol address:%s\n", ident);
+
+        int i = 0;
+
+        for (i = 0; i < symbolTableIndex; i++) {
+
+            //printf("Checking against:%s\n", symbolTable[i].name);
+
+            int check = strcmp(ident, symbolTable[i].name);
+
+            //printf("Check is %i \n", check);
+
+            if (check == 0) {
+
+                int address = symbolTable[i].address;
+                //printf("Address is %i\n", symbolTable[i].address);
+                return address;
+            }
+
+        }
+
+        return 0;
 }
+
 
 //Get next Token
 void getToken() {
 
+    //Init current token
+    char * curToken[11];
+
+    //Copy token from token array
+    strcpy(curToken, tokens[getTokenCounter]);
+
+        //printf("\nCurrent token: %s \n", curToken);
+
+    //Increment counter
     getTokenCounter++;
-    token = tokens[getTokenCounter];
-    //return token;
-}
 
-//Fetches the ID
-char *getID(int i) {
-    return LL->symbols[i];
-}
+    //Convert token to numerical token
+    int digit = 0;
+    sscanf(curToken, "%d", &digit);
 
-//Fetches the size of the table
-int getTableSize() {
-    return (int)(LL->numID * 2 + 1);
-}
+    //If token is identifier, save for symbol table
+    if (digit == identsym) {
 
-int hashFunc(char* ID) {
-    int val = 0;
-    int index = 0;
-    int size;
-    size = getTableSize();
 
-    while(ID[index] != '\0') {
-        //hash function
-        val = val + ((int)ID[index] % size);
-
-        //increase index for while loop
-        index++;
-    }
-    return val;
-}
-
-int makeSymbolTable() {
-
-    int i = 0;
-    //insert symbol *symtab into ass3.h
-    symbol * symtab = NULL;
-
-    //Allocate some memory for table
-    symtab = (symbol*)malloc(sizeof(symbol)*(2*LL->numID + 1));
-
-    //If there is noting in the table then print error
-    if(symtab == NULL) {
-        printf("Error: Symbol Table is null.");
-        return 1;
+        strcpy(identifier, tokens[getTokenCounter]);
+        getTokenCounter++;
     }
 
-    int max = getTableSize();
+    //If token is number, save for symbol table
+    else if (digit == numbersym) {
 
-    //Zero the array out for kind variable
-    for(i = 0; i < max; i++) {
-        symtab[i].kind = 0;
+
+        number = digit;
+        getTokenCounter++;
+
     }
 
-    return 0;
+    token = digit;
 }
 
 void error(int errorNumber) {
@@ -296,8 +407,11 @@ void error(int errorNumber) {
 void program() {
 
     getToken();
+
     block();
+
     if(token != periodsym) {
+
         //error period expected
         error(9);
         //return 9;
@@ -307,75 +421,152 @@ void program() {
 //Block
 void block() {
 
+    symbolTable[symbolTableIndex].address = codeIdx;
+    gen(jmp, 0, 0);
+
     if(token == constsym) {
 
         //Gotta do a do while loop
         do {
+
         getToken();
+
         if(token != identsym) {
+
             //error
             error(4);
         }
+
         getToken();
+
         if(token != eqlsym) {
+
             //error
             error(1);
         }
+
         getToken();
+
         if(token != numbersym) {
             //error
             error(2);
         }
+
+        //enter (constant, ident, number)
+        enter(1);
+
         getToken();
+
         } while(token == commasym);
 
         if(token != semicolonsym) {
+
             //error
             error(5);
             getToken();
+
         }
     } //end 1
+
     if(token == varsym) {
+
         do{
+
         getToken();
+
         if(token != identsym) {
+
             //error
             error(4);
         }
+
         getToken();
+
+        //enter (variable, ident, level)
+        enter(2);
+
     } while(token == commasym);
 
     if(token != semicolonsym) {
         //error
         error(5);
     }
+
     getToken();
 } //end 2
 
     while(token == procsym) {
         //do?
         getToken();
+
         if(token != identsym) {
+
             error(4);
         }
+
+        //enter(procedure, ident)
+        enter(3);
+
         getToken();
+
         if(token != semicolonsym) {
+
             error(5);
         }
+
         getToken();
+
+        lexLevel++;
         block();
+
         if(token != semicolonsym) {
+
             error(5);
         }
+
         getToken();
+
     } //end 3
+
+
+
+    gen(inc, 0, symbolTableIndex);
     statement();
+    gen(opr, 0, 0);
 } //end 4
 
 void statement() {
 
     //If token is an identifier
     if (token == identsym) {
+
+        //printf("Statement token: %i\n", token);
+
+        int i;
+
+        //printf("Statement identifier: %s\n", identifier);
+
+        i = find(identifier);
+
+        //printf("Result of find %i", i);
+
+        if (i == 0) {
+
+            //Undeclared
+            error(11);
+        }
+
+        int k;
+
+        //Check identifier symbol type
+        k = symbolType(identifier);
+
+        //If identifier is not varsym
+        if (k != 2) {
+
+            //Error assignment to const or proc
+            error(12);
+        }
 
         //Get next token
         getToken();
@@ -392,6 +583,9 @@ void statement() {
 
         //parse expression
         expression();
+
+        gen(sto, symbolLevel(identifier), symbolAddress(identifier));
+
 
     }
 
@@ -505,6 +699,9 @@ void condition() {
 
         //Parse expression
         expression();
+
+        //Gen odd, 6 for M odd
+        gen(opr, 0, 6);
     }
 
     //Otherwise
@@ -515,17 +712,61 @@ void condition() {
 
         //If token is not a relation operator
         int relCheck = isRelationalOperator();
+
         if (!relCheck) {
 
             //error: relational operator missing in conditional statement
             error(20);
         }
 
+        int relationalOperator = token;
+
         //Get next token
         getToken();
 
         //Parse expression
         expression();
+
+        if (relationalOperator == geqsym) {
+
+            //Gen greater/equal (13 = M)
+            gen(opr, 0, 13);
+
+        }
+
+        else if (relationalOperator == gtrsym) {
+
+             //Gen greater than (12 = M)
+            gen(opr, 0, 12);
+
+        }
+
+        else if (relationalOperator == leqsym) {
+
+            //Gen less/equal (11 = M)
+            gen(opr, 0, 11);
+
+        }
+
+        else if (relationalOperator == lessym) {
+
+            //Gen less than (10 = M)
+            gen(opr, 0, 10);
+
+        }
+
+        else if (relationalOperator == neqsym) {
+
+            //Gen neq (9 = M)
+            gen(opr, 0, 9);
+
+        }
+
+        else if (relationalOperator == eqlsym) {
+
+            //Gen eql (8 = M)
+            gen(opr, 0 , 8);
+        }
     }
 
 }
@@ -533,28 +774,71 @@ void condition() {
 //expression
 void expression() {
 
+    int tokenOperator = 0;
+
     if(token == plussym || token == minussym) {
+
+        tokenOperator = token;
+
         getToken();
     }
+
+    term();
+
+    if (tokenOperator == minussym) {
+
+        //Gen neg (1 = M)
+        gen(opr, 0, 1);
+    }
+
+    while(token == plussym || token == minussym) {
+
+        tokenOperator = token;
+
+        getToken();
+
         term();
-        while(token == plussym || token == minussym) {
-            getToken();
-            term();
-        } //edn 1
-} //end 2
 
+        if (tokenOperator == plussym) {
 
+            //Gen add (2 = M)
+            gen(opr, 0, 2);
+        }
 
+        else {
+
+            //Gen sub (3 = M)
+            gen(opr, 0, 3);
+        }
+
+    }
+}
 
 void term() {
+
+    int tokenOperator = 0;
 
     factor();
 
     while (token == multsym || token == slashsym) {
 
+        tokenOperator = token;
+
         getToken();
 
         factor();
+
+        if (tokenOperator == slashsym) {
+
+            //Gen div (5 = M)
+            gen(opr, 0, 5);
+        }
+
+        else {
+
+            //Gen mul (4 = M)
+            gen(opr, 0, 4);
+        }
     }
 
 }
@@ -562,6 +846,43 @@ void term() {
 void factor() {
 
     if (token == identsym) {
+
+        int i;
+
+        //printf("Statement identifier: %s\n", identifier);
+
+        i = find(identifier);
+
+        //printf("Result of find %i", i);
+
+        if (i == 0) {
+
+            //Undeclared
+            error(11);
+        }
+
+        int k;
+
+        //Check identifier symbol type
+        k = symbolType(identifier);
+
+        //If identifier is varsym
+        if (k == 2) {
+
+            gen(lod, symbolLevel(identifier), symbolAddress(identifier));
+        }
+
+        //If identifier is const
+        else if (k == 1) {
+
+            gen(lit, 0, number);
+        }
+
+        else {
+
+            //TODO: figure out this error
+            error(1);
+        }
 
         getToken();
     }
@@ -633,12 +954,11 @@ int isRelationalOperator() {
 
 int scanTokens() {
 
-
         FILE * lexemes = fopen("lexemelist.txt", "r");
 
         if(lexemes == NULL) {
 
-                printf("Error: No lexeme list file!");
+                printf("Error: No lexeme list file!\n");
         }
 
         //Iterated char
@@ -647,36 +967,32 @@ int scanTokens() {
         //Array for a single token
         char singleToken[100];
 
+        char * sToken = singleToken;
+
         //Array counter
         int singleTokenCounter = 0;
 
         int tokenCounter = 0;
 
-        //Iterate over input
+        int storeVarName = 0;
+
+        //Iterate over lexeme list
         while (fscanf(lexemes, "%c", &c) != EOF) {
 
             //If we have whitespace, this is the end of the token
             if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c =='\r') {
 
-		//Terminating char
-		singleToken[singleTokenCounter] = '\0';
+                //Terminating char
+                singleToken[singleTokenCounter] = '\0';
 
-                //Print the single token
-                printf("%s ", &singleToken);
+                //Print the single token - TODO: compile flag
+                printf("%s ", sToken);
 
-                //Convert token to numerical token
-                int digit = 0;
-                sscanf(singleToken, "%d", &digit);
+                //Copy the single token into the array of tokens
+                strcpy(tokens[tokenCounter], sToken);
 
-                //Ignore the non token types
-                if (digit >= 1 && digit <= 33) {
-
-                    //Store in token array
-                    tokens[tokenCounter] = digit;
-
-                    //Increment
-                    tokenCounter++;
-                }
+                //Increment index
+                tokenCounter++;
 
                 //Reset the single token array for the next token
                 memset(&singleToken[0], 0, sizeof(singleToken));
@@ -696,39 +1012,64 @@ int scanTokens() {
 
         }
 
+        //TODO: Remove print token array
+        /*
+        int j = 0;
+        printf("\nToken Array:\n");
+        for (j = 0; j < tokenCounter; j++) {
+            printf("%s\n", tokens[j]);
+        }
+        //TODO: Remove
+        printf("\n\nSymbol Table:");
+        int i = 0;
+        for (i = 0; i < symbolTableIndex; i++) {
+            printf("\nKind: %i Name: %s Value: %i  Level: %i  Address: %i\n", symbolTable[i].kind, symbolTable[i].name, symbolTable[i].value, symbolTable[i].level, symbolTable[i].address);
+            symbolTable[i].kind = 0;
+            symbolTable[i].value = 0;
+            symbolTable[i].level = 0;
+            symbolTable[i].address = 0;
+        }
+        printf("\n");
+        */
+
+
         program();
 
+        outputCode();
+
+        outputSymbolTable();
+
+        fclose(writeCode);
+        fclose(lexemes);
+
         return 0;
+
+
 }
 
-//Display the symbol table list
-void displaySymList(LexemeList *temp, FILE *fileout) {
-	int i = 0;
-	for(i = 0; i < temp->size; i++) {
-        
-        //print the reserved word
-		fprintf(fileout, "%s", isReservedWord(temp->list[i]));
-
-        //if it is an identifier then add to the index and print the symbol
-		if(temp->list[i] == identsym) {
-
-			i++;
-			fprintf(fileout, "%s", temp->symbols[temp->list[i]]);
-		}
-		else if(temp->list[i] == numbersym) {
-		    //if its a number then add to index and print the number in the list
-			i++;
-			fprintf(fileout, "%d", temp->list[i]);
-
-
-		}
-	}
-}
 
 int main()
 {
+
     //Call assignment 2 scanner
     int failedToScan = scannermach();
+
+    int maxTableSize = MAX_SYMBOL_TABLE_SIZE;
+
+    symbolTable = (symbol*)malloc(sizeof(symbol)*(maxTableSize));
+
+    //Init symbol table
+
+    int i = 0;
+    symbolTableIndex = 0;
+
+    for (i = 0; i < maxTableSize; i++) {
+
+        symbolTable[i].kind = 0;
+        symbolTable[i].value = 0;
+        symbolTable[i].level = 0;
+        symbolTable[i].address = 0;
+    }
 
     //If scanner
     if (!failedToScan) {
@@ -747,6 +1088,8 @@ int main()
 
         printf("\nNo errors, program is syntactically correct.");
     }
+
+
 
     return 0;
 }
