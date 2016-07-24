@@ -127,6 +127,7 @@ int scannermach() {
      FILE * outputLexemeTable = fopen("lexemetable.txt", "w");
      FILE * outputLexemeList = fopen("lexemelist.txt", "w");
      FILE * outputCleanInput = fopen("cleaninput.txt", "w");
+     FILE * outputSymTab = fopen("symlist.txt", "w");
 
      //If read file error, output and exit
      if (readCode == NULL) {
@@ -667,10 +668,15 @@ int scannermach() {
         printf("\npScanner was aborted early due to lexical error.");
      }
      
+     LexemeList *list;
+     fprintf(outputSymTab, "Name\t Type\t Level\t Value");
+     fprintf(outputSymTab, "Loopend\t const\t 0 \t 0");
+     displaySymList(list, outputSymTab);
+     
      fclose(readCode);
      fclose(outputLexemeTable);
      fclose(outputLexemeList);
      fclose(outputCleanInput);
-
+     fclose(outputSymTab);
      return 0;
 }
