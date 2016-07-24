@@ -21,8 +21,9 @@ void expression();
 void term();
 void factor();
 void gen(int op, int l, int m);
-int symbolType(int symbol);
-int symbolLevel(int level);
+int symbolType(struct symbol);
+int symbolLevel(struct) symbol);
+int symbolAddress(struct symbol);
 int isRelationalOperator();
 int tokens[100];
 int getTokenCounter = -1;
@@ -70,14 +71,26 @@ void gen(int op, int l, int m) {
 	
 }
 
-int symbolType(int symbol) {
+//Returns the type of a symbol (const, var, proc)
+//TODO: Change symbol declaration once finalized data structure
+int symbolType(struct symbol) {
 	
 	
 	//TODO: Remove 
 	return 0;
 }
 
-int symbolLevel(int level) {
+//Returns the level of a symbol
+//TODO: Change symbol declaration once finalized data structure
+int symbolLevel(struct symbol) {
+	
+	//TODO: Remove
+	return 0;
+}
+
+//Returns the address of a symbol
+//TODO: Change symbol declaration once finalized data structure
+int symbolAddress(struct symbol) {
 	
 	//TODO: Remove
 	return 0;
