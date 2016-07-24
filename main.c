@@ -535,6 +535,7 @@ void block() {
     gen(inc, 0, symbolTableIndex);
     statement();
     gen(opr, 0, 0);
+    //lexLevel--;
 } //end 4
 
 void statement() {
