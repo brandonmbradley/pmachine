@@ -420,6 +420,8 @@ void program() {
 
 //Block
 void block() {
+    
+    lexLevel++;
 
     symbolTable[symbolTableIndex].address = codeIdx;
     gen(jmp, 0, 0);
