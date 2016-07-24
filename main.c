@@ -21,6 +21,8 @@ void expression();
 void term();
 void factor();
 void gen(int op, int l, int m);
+int symbolType(int symbol);
+int symbolLevel(int level);
 int isRelationalOperator();
 int tokens[100];
 int getTokenCounter = -1;
@@ -66,6 +68,19 @@ void displayLexemeList(LexemeList *lists, FILE *fileout) {
 void gen(int op, int l, int m) {
 	
 	
+}
+
+int symbolType(int symbol) {
+	
+	
+	//TODO: Remove 
+	return 0;
+}
+
+int symbolLevel(int level) {
+	
+	//TODO: Remove
+	return 0;
 }
 
 //Get next Token
