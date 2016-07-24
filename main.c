@@ -22,7 +22,7 @@ void term();
 void factor();
 void gen(int op, int l, int m);
 int symbolType(struct symbol);
-int symbolLevel(struct) symbol);
+int symbolLevel(struct symbol);
 int symbolAddress(struct symbol);
 int isRelationalOperator();
 int tokens[100];
