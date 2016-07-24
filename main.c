@@ -81,7 +81,7 @@ void gen(int op, int l, int m) {
 //Inserts a new symbol into the symbol table
 void enter(int type) {
 
-    printf("Enter called with type %i", type);
+    //printf("Enter called with type %i", type);
 
     //Store name
     strcpy(symbolTable[symbolTableIndex].name, identifier);
@@ -972,8 +972,6 @@ int scanTokens() {
         int singleTokenCounter = 0;
 
         int tokenCounter = 0;
-
-        int storeVarName = 0;
 
         //Iterate over lexeme list
         while (fscanf(lexemes, "%c", &c) != EOF) {
