@@ -614,10 +614,11 @@ void statement() {
             error(11);
         }
 
-        if (symbolType(identifier) == procsym) {
+        int k2 = symbolType(identifier);
 
-            //TODO: fix level-symbollevel(i)
-            gen(cal, symbolLevel(identifier), symbolAddress(identifier));
+        if (k2 == procsym) {
+
+            gen(cal, lexLevel - symbolLevel(identifier), symbolAddress(identifier));
         }
 
         else {
