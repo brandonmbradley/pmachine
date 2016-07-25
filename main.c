@@ -37,8 +37,7 @@ int lexLevel = 0;
 int codeIdx = 0;
 instruction i_code[MAX_CODE_LENGTH];
 FILE * writeCode;
-int symbolTableIndex;
-symbol symbolTable;
+
 
 //Output code to mcode.txt for vm
 void outputCode() {
