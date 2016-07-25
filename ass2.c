@@ -84,7 +84,7 @@ int isReservedWord(char * wordCheck) {
 }
 
 int scannermach() {
-    
+
     identifierCount = 0;
 
     numberCount = 0;
@@ -110,6 +110,10 @@ int scannermach() {
     //Skip closing comment flag
     skipEndComment = 0;
 
+    int endStatement = 0;
+
+    int mult = 0;
+
     //Becomesym flag
     becomes = 0;
 
@@ -123,11 +127,10 @@ int scannermach() {
     m_error = 0;
 
     //Init input/output files
-     FILE * readCode = fopen("input6.txt", "r");
+     FILE * readCode = fopen("input.txt", "r");
      FILE * outputLexemeTable = fopen("lexemetable.txt", "w");
      FILE * outputLexemeList = fopen("lexemelist.txt", "w");
      FILE * outputCleanInput = fopen("cleaninput.txt", "w");
-     FILE * outputSymTab = fopen("symlist.txt", "w");
 
      //If read file error, output and exit
      if (readCode == NULL) {
@@ -146,11 +149,21 @@ int scannermach() {
      //Iterate over input
      while ((fscanf(readCode, "%c", &c) != EOF) && !m_error) {
 
+        if (mult == 1) {
+
+                //Output tokens
+                fprintf(outputLexemeTable, "\n*\t\t%i", multsym);
+                fprintf(outputLexemeList, "%i ", multsym);
+
+                mult = 0;
+        }
+
         //Right parenthesis
         if (c == '(' && !scanningComment) {
 
             fprintf(outputLexemeTable, "\n(\t\t%i", lparentsym);
             fprintf(outputLexemeList, "%i ", lparentsym);
+            endStatement = 1;
         }
 
         //Left parenthesis
@@ -158,12 +171,14 @@ int scannermach() {
 
             fprintf(outputLexemeTable, "\n)\t\t%i", rparentsym);
             fprintf(outputLexemeList, "%i ", rparentsym);
+            endStatement = 1;
         }
 
         //Colon
         if (c == ':' && !scanningComment) {
 
             becomes = 1;
+            endStatement = 1;
         }
 
         //Single =
@@ -172,6 +187,7 @@ int scannermach() {
             //there was no :/<> in front of eq
             fprintf(outputLexemeTable, "\n=\t\t%i", eqlsym);
             fprintf(outputLexemeList, "%i ", eqlsym);
+            endStatement = 1;
         }
 
         //Becomesym
@@ -180,6 +196,7 @@ int scannermach() {
             fprintf(outputLexemeTable, "\n:=\t\t%i", becomessym);
             fprintf(outputLexemeList, "%i ", becomessym);
             becomes = 0;
+            endStatement = 1;
         }
 
         //Lessym
@@ -188,6 +205,7 @@ int scannermach() {
             lesseq = 0;
             fprintf(outputLexemeTable, "\n<\t\t%i", lessym);
             fprintf(outputLexemeList, "%i ", lessym);
+            endStatement = 1;
         }
 
         //Gtrsym
@@ -196,12 +214,14 @@ int scannermach() {
             greateq = 0;
             fprintf(outputLexemeTable, "\n>\t\t%i", gtrsym);
             fprintf(outputLexemeList, "%i ", gtrsym);
+            endStatement = 1;
         }
 
         //Flag for lessym completion
         if (c == '<' && !scanningComment && !scanningComment) {
 
             lesseq = 1;
+            endStatement = 1;
         }
 
         //Leqsym
@@ -210,12 +230,14 @@ int scannermach() {
             lesseq = 0;
             fprintf(outputLexemeTable, "\n<=\t\t%i", leqsym);
             fprintf(outputLexemeList, "%i ", leqsym);
+            endStatement = 1;
         }
 
         //Flag for gtrsym completion
         if (c == '>' && !scanningComment) {
 
             greateq = 1;
+            endStatement = 1;
         }
 
         //Neqsym
@@ -225,6 +247,7 @@ int scannermach() {
             greateq = 0;
             fprintf(outputLexemeTable, "\n<>\t\t%i", neqsym);
             fprintf(outputLexemeList, "%i ", neqsym);
+            endStatement = 1;
         }
 
         //Geqsym
@@ -233,6 +256,7 @@ int scannermach() {
             greateq = 0;
             fprintf(outputLexemeTable, "\n>=\t\t%i", geqsym);
             fprintf(outputLexemeList, "%i ", geqsym);
+            endStatement = 1;
         }
 
         //Continuity decision checks, is this a divide or beginning of comment
@@ -247,6 +271,7 @@ int scannermach() {
                 fprintf(outputLexemeList, "%i ", slashsym);
                 scanningComment = 0;
                 scanningDivideOrComment = 0;
+                endStatement = 1;
             }
 
         }
@@ -266,7 +291,12 @@ int scannermach() {
         }
 
         //End of statement and not in a comment
-        else if ((c == ' ' || c == ';' || c == ',' || c == '+' || c == '-' || c == '.' || c == ':') && !scanningComment) {
+        else if (((c == ' ' || c == ';' || c == ',' || c == '+' || c == '-' || c == '.' || c == ':' || c == '*' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c =='\r') || endStatement) && !scanningComment) {
+
+                if (endStatement) {
+
+                    endStatement = 0;
+                }
 
             //End of word
             if (scanningWord) {
@@ -590,9 +620,7 @@ int scannermach() {
             //We found an asterisk that was not preceded by a slash
             else {
 
-                //Output tokens
-                fprintf(outputLexemeTable, "\n*\t\t%i", multsym);
-                fprintf(outputLexemeList, "%i ", multsym);
+                mult = 1;
 
             }
 
@@ -667,16 +695,11 @@ int scannermach() {
 
         printf("\npScanner was aborted early due to lexical error.");
      }
-     
-     LexemeList *list = NULL;
-     fprintf(outputSymTab, "Name\t Type\t Level\t Value");
-     fprintf(outputSymTab, "Loopend\t const\t 0 \t 0");
-     displaySymList(list, outputSymTab);
-     
+
      fclose(readCode);
      fclose(outputLexemeTable);
      fclose(outputLexemeList);
      fclose(outputCleanInput);
-     fclose(outputSymTab);
+
      return 0;
 }

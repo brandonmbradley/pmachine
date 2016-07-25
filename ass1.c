@@ -487,7 +487,6 @@ void startVirtualMachine () {
 
     }
 
-     //return 0;
 }
 
 

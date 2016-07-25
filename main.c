@@ -38,7 +38,6 @@ int codeIdx = 0;
 instruction i_code[MAX_CODE_LENGTH];
 FILE * writeCode;
 
-
 //Output code to mcode.txt for vm
 void outputCode() {
 
@@ -130,15 +129,17 @@ int find(char * ident) {
            // printf("Checking against:%s\n", symbolTable[i].name);
 
             int check = strcmp(ident, symbolTable[i].name);
-            
-            position++;
 
             //printf("Check is %i \n", check);
+
+            position++;
 
             if (check == 0) {
 
                 return position;
             }
+
+
 
         }
 
@@ -237,8 +238,6 @@ void getToken() {
 
     //Copy token from token array
     strcpy(curToken, tokens[getTokenCounter]);
-
-        //printf("\nCurrent token: %s \n", curToken);
 
     //Increment counter
     getTokenCounter++;
@@ -421,7 +420,7 @@ void program() {
 
 //Block
 void block() {
-    
+
     lexLevel++;
 
     symbolTable[symbolTableIndex].address = codeIdx;
@@ -604,7 +603,7 @@ void statement() {
             //error: missing identifier
             error(14);
         }
-        
+
         int p = find(identifier);
 
         if (p == 0) {
@@ -711,7 +710,7 @@ void statement() {
         statement();
         //gen(jmp, symbolLevel(identifier), symbolAddress(identifier));
     }
-    
+
 
 }
 
@@ -906,8 +905,8 @@ void factor() {
 
         else {
 
-            //TODO: figure out this error
-            error(1);
+            //Expression contains procedure ident
+            error(21);
         }
 
         getToken();
@@ -1011,7 +1010,7 @@ int scanTokens() {
                 //Terminating char
                 singleToken[singleTokenCounter] = '\0';
 
-                //Print the single token - TODO: compile flag
+                //Print the single token
                 printf("%s ", sToken);
 
                 //Copy the single token into the array of tokens
@@ -1038,17 +1037,20 @@ int scanTokens() {
 
         }
 
-
-
-
+        //Start the parser
         program();
 
+        //Output mcode.txt
         outputCode();
 
-        outputSymbolTable();
+        //outputSymbolTable();
 
+        //Close the files
         fclose(writeCode);
         fclose(lexemes);
+
+        //Start the vm
+        startVirtualMachine();
 
         return 0;
 
@@ -1088,7 +1090,6 @@ int main()
 
     else {
 
-        //TODO: Remove
         printf("\nCompiler Driver: Scanner failed and should have output error.");
     }
 
