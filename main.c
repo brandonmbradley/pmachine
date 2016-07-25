@@ -518,7 +518,6 @@ void block() {
 
         getToken();
 
-        lexLevel++;
         block();
 
         if(token != semicolonsym) {
