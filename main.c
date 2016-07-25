@@ -623,8 +623,8 @@ void statement() {
 
         else {
 
-            //Call must be followed by a procedure identifier
-            error(14);
+            //Meaningless
+            error(15);
         }
 
         //Get next token
