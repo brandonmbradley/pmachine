@@ -25,6 +25,8 @@ int token;
 // LexemeList *LL;
 // int pointLL;
 
+int symbolTableIndex;
+symbol * symbolTable;
 
 //Prototypes
 void getToken();
