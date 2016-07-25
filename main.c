@@ -605,6 +605,26 @@ void statement() {
             //error: missing identifier
             error(14);
         }
+        
+        int p = find(identifier);
+
+        if (p == 0) {
+
+            //Undeclared
+            error(11);
+        }
+
+        if (symbolType(identifier) == procsym) {
+
+            //TODO: fix level-symbollevel(i)
+            gen(cal, symbolLevel(identifier), symbolAddress(identifier));
+        }
+
+        else {
+
+            //Call must be followed by a procedure identifier
+            error(14);
+        }
 
         //Get next token
         getToken();
