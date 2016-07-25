@@ -201,6 +201,7 @@ int symbolAddress(char * ident) {
         //printf("Finding symbol address:%s\n", ident);
 
         int i = 0;
+        int address = 0;
 
         for (i = 0; i < symbolTableIndex; i++) {
 
@@ -212,7 +213,7 @@ int symbolAddress(char * ident) {
 
             if (check == 0) {
 
-                int address = symbolTable[i].address;
+                address = symbolTable[i].address;
                 //printf("Address is %i\n", symbolTable[i].address);
                 return address;
             }
