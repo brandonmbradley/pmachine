@@ -100,7 +100,7 @@ void enter(int type) {
     else if (type == 2) {
 
         symbolTable[symbolTableIndex].level = lexLevel;
-        symbolTable[symbolTableIndex].address = symbolTableIndex;
+        symbolTable[symbolTableIndex].address = codeIdx;
 
     }
 
@@ -527,7 +527,7 @@ void block() {
 
 
 
-    gen(inc, 0, symbolTableIndex);
+    gen(inc, 0, codeIdx);
     statement();
     gen(opr, 0, 0);
     //lexLevel--;
