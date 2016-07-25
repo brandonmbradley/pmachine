@@ -890,6 +890,8 @@ void factor() {
     else if (token == numbersym) {
 
         getToken();
+        gen(lit, 0, token); //token could also be replaced by numbersym
+        getToken();
     }
 
     else if (token == lparentsym) {
