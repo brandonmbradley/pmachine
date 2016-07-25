@@ -122,9 +122,11 @@ int find(char * ident) {
 
         int i = 0;
 
+        int position = 0;
+
         for (i = 0; i < symbolTableIndex; i++) {
 
-            //printf("Checking against:%s\n", symbolTable[i].name);
+           // printf("Checking against:%s\n", symbolTable[i].name);
 
             int check = strcmp(ident, symbolTable[i].name);
 
@@ -132,8 +134,10 @@ int find(char * ident) {
 
             if (check == 0) {
 
-                return 1;
+                return position;
             }
+            
+            position++;
 
         }
 
